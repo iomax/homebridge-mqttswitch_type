@@ -1,7 +1,7 @@
 {
   "name": "homebridge-mqttswitch",
-  "version": "0.0.3",
-  "description": "Homebridge plugin for MQTT switches",
+  "version": "1.0.0",
+  "description": "Homebridge plugin for MQTT switches and light",
   "note": "peerDependencies is hardcoded to peerDepdendencies in homebridge!!!",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ilcato/homebridge-mqttswitch"
+    "url": "https://github.com/iomax/homebridge-mqttswitch_type.git"
   },
   "keywords": [
     "homebridge-plugin",
@@ -23,14 +23,15 @@
     "Siri",
     "IoT",
     "Switch"
+    "Light"
   ],
   "dependencies": {
     "mqtt": "^1.6.3"
   },
-  "author": "ilcato",
+  "author": "iomax",
   "license": "GPL2",
   "bugs": {
-    "url": "https://github.com/ilcato/homebridge-mqttswitch/issues"
+    "url": "https://github.com/iomax/homebridge-mqttswitch_type/issues"
   },
-  "homepage": "https://github.com/ilcato/homebridge-mqttswitch"
+  "homepage": "https://github.com/iomax/homebridge-mqttswitch_type.git"
 }

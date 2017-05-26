@@ -57,17 +57,21 @@ function MqttSwitchAccessory(log, config) {
 	this.caption		= config["caption"];
 	this.topicStatusGet	= config["topics"].statusGet;
 	this.topicStatusSet	= config["topics"].statusSet;
-    this.onValue = (config["onValue"] !== undefined) ? config["onValue"]: "true";
-    this.offValue = (config["offValue"] !== undefined) ? config["offValue"]: "false";
+	this.onValue = (config["onValue"] !== undefined) ? config["onValue"]: "true";
+	this.offValue = (config["offValue"] !== undefined) ? config["offValue"]: "false";
 	if (config["integerValue"]) {
 		this.onValue = "1";
 		this.offValue = "0";
 	}
-    this.statusCmd = config["statusCmd"];
+    	this.statusCmd = config["statusCmd"];
 
 	this.switchStatus = false;
 
-	this.service = new Service.Switch(this.name);
+	if ("light" == config["type"]) {	
+		this.service = new Service.Lightbulb(this.name);
+	} else { 
+		this.service = new Service.Switch(this.name); 
+	};
   	this.service
     	.getCharacteristic(Characteristic.On)
     	.on('get', this.getStatus.bind(this))

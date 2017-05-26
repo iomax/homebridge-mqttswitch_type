@@ -33,9 +33,9 @@ Remember to configure the plugin in config.json in your home directory inside th
 }
 ```
 
-Look for a sample config in [config.json example](https://github.com/iomax/homebridge-mqttswitch_type/blob/master/config-sample.json
+Look for a sample config in [config.json example](https://github.com/iomax/homebridge-mqttswitch_type/blob/master/config-sample.json)
 
 # Credit
 
-The original homebridge MQTT SWITCH plugins work was done by [ilcato](https://github.com/ilcato) in his [homebridge-mqttswitch](https://github.com/ilcato/homebridge-mqttswitch) project.
+The original homebridge MQTT SWITCH plugins work was done by [ilcato](https://github.com/ilcato) in [homebridge-mqttswitch](https://github.com/ilcato/homebridge-mqttswitch) project.
 

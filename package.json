@@ -22,7 +22,7 @@
     "homekit",
     "Siri",
     "IoT",
-    "Switch"
+    "Switch",
     "Light"
   ],
   "dependencies": {

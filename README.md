@@ -15,21 +15,20 @@ Version 1.0.0
 Remember to configure the plugin in config.json in your home directory inside the .homebridge directory. Configuration parameters:
 ```javascript
 {
-  "accessory": "mqttswitch",
-  "name": "PUT THE NAME OF YOUR SWITCH HERE",
-  "url": "PUT URL OF THE BROKER HERE",
-  "username": "PUT USERNAME OF THE BROKER HERE",
-  "password": "PUT PASSWORD OF THE BROKER HERE",
-  "caption": "PUT THE LABEL OF YOUR SWITCH HERE",
-  "type": "PUT ACCESSORY TYPE HERE" ( light|switch ),
-  "topics": {
- 	"statusGet": 	"PUT THE MQTT TOPIC FOR THE GETTING THE STATUS OF YOUR SWITCH HERE",
- 	"statusSet": 	"PUT THE MQTT TOPIC FOR THE SETTING THE STATUS OF YOUR SWITCH HERE"
-	},
-  "onValue": "OPTIONALLY PUT THE VALUE THAT MEANS ON HERE (DEFAULT true)",
-  "offValue": "OPTIONALLY PUT THE VALUE THAT MEANS OFF HERE (DEFAULT false)",
-  "statusCmd": "OPTIONALLY PUT THE STATUS COMMAND HERE",
-  "integerValue": "OPTIONALLY SET THIS TRUE TO USE 1/0 AS VALUES"
+   "accessory": "mqttswitch_type",
+   "name": "SWITCH NAME",
+   "url": "URL OF THE BROKER",
+   "username": "USERNAME OF THE BROKER",
+   "password": "PASSWORD OF THE BROKER",
+   "caption": "SWITCH LABEL",
+   "type": "ACCESSORY TYPE " ( light|switch )",
+   "topics": {
+		"statusGet":    "MQTT TOPIC FOR THE GETTING THE STATUS OF SWITCH",
+		"statusSet":    "MQTT TOPIC FOR THE SETTING THE STATUS OF SWITCH",
+		"statusCmd":    "OPTIONALLY THE STATUS COMMAND"
+   },
+   "onValue": "OPTIONALLY THE VALUE THAT MEANS ON (DEFAULT true)",
+   "offValue": "OPTIONALLY THE VALUE THAT MEANS ON (DEFAULT false)"
 }
 ```
 

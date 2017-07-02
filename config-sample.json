@@ -18,7 +18,7 @@
             "username": "USERNAME OF THE BROKER",
             "password": "PASSWORD OF THE BROKER",
             "caption": "SWITCH LABEL",
-            "type": "ACCESSORY TYPE " ( light|switch )",
+            "type": "ACCESSORY TYPE ( light|switch )",
             "topics": {
                       "statusGet":    "MQTT TOPIC FOR THE GETTING THE STATUS OF SWITCH",
                       "statusSet":    "MQTT TOPIC FOR THE SETTING THE STATUS OF SWITCH",

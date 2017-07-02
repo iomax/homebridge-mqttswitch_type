@@ -1,0 +1,32 @@
+{
+    "bridge": {
+        "name": "Homebridge",
+        "username": "CC:22:3D:E3:CE:30",
+        "port": 51826,
+        "pin": "031-45-154"
+    },
+    
+    "description": "This is an example configuration file. You can use this as a template for creating your own configuration file.",
+
+    "platforms": [
+    ],
+    "accessories": [
+    	{
+            "accessory": "mqttswitch_type",
+            "name": "SWITCH NAME",
+            "url": "URL OF THE BROKER",
+            "username": "USERNAME OF THE BROKER",
+            "password": "PASSWORD OF THE BROKER",
+            "caption": "SWITCH LABEL",
+            "type": "ACCESSORY TYPE " ( light|switch )",
+            "topics": {
+                      "statusGet":    "MQTT TOPIC FOR THE GETTING THE STATUS OF SWITCH",
+                      "statusSet":    "MQTT TOPIC FOR THE SETTING THE STATUS OF SWITCH",
+                      "statusCmd":    "OPTIONALLY THE STATUS COMMAND"
+                },
+            "onValue": "OPTIONALLY THE VALUE THAT MEANS ON (DEFAULT true)",
+            "offValue": "OPTIONALLY THE VALUE THAT MEANS ON (DEFAULT false)"
+ 			
+    	}
+    ]
+}

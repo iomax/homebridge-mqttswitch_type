@@ -22,6 +22,8 @@ Remember to configure the plugin in config.json in your home directory inside th
    "password": "PASSWORD OF THE BROKER",
    "caption": "SWITCH LABEL",
    "type": "ACCESSORY TYPE ( light|switch )",
+   "lwt": "OPTIONAL: LAST WILL AND TESTAMENT TOPIC",
+   "lwtPayload": "lwt Payload",
    "topics": {
 		"statusGet":    "MQTT TOPIC FOR THE GETTING THE STATUS OF SWITCH",
 		"statusSet":    "MQTT TOPIC FOR THE SETTING THE STATUS OF SWITCH",

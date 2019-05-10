@@ -10,6 +10,8 @@
 //            "password": "PASSWORD OF THE BROKER",
 // 	      "caption": "SWITCH LABEL",
 //	      "type": "ACCESSORY TYPE " ( light|switch )",
+//     	      "lwt": "OPTIONAL: MQTT LAST WILL AND TESTAMENT TOPIC",
+//            "lwtPayload": "lwt Payload",
 //    	      "topics": {
 // 			"statusGet": 	"MQTT TOPIC FOR THE GETTING THE STATUS OF SWITCH",
 // 			"statusSet": 	"MQTT TOPIC FOR THE SETTING THE STATUS OF SWITCH",
@@ -45,8 +47,8 @@ function MqttSwitch_typeAccessory(log, config) {
     		reconnectPeriod: 1000,
     		connectTimeout: 30 * 1000,
 		will: {
-			topic: 'WillMsg',
-			payload: 'Connection Closed abnormally..!',
+			topic: '/lwt',
+			payload: this.name + ' Connection Closed abnormally..!',
 			qos: 0,
 			retain: false
 		},
@@ -62,6 +64,14 @@ function MqttSwitch_typeAccessory(log, config) {
 	this.offValue 		= (config["offValue"] !== undefined) ? config["offValue"]: "false";
 
 	this.switchStatus = false;
+
+        if( this.topicStatusGet != undefined ) {
+                this.lwt = config["lwt"];
+                this.lwt_payload = config["lwtPayload"];
+        };
+
+        if (this.lwt !== undefined ) this.reachable = false
+        else this.reachable = true;
 
 	if ("light" == config["type"]) {	
 		this.service = new Service.Lightbulb(this.name);
@@ -87,17 +97,38 @@ function MqttSwitch_typeAccessory(log, config) {
 		that.log('Error event on MQTT');
 	});
 
+        // Fixed issue where after disconnections topics would no resubscripted
+        // based on idea by [MrBalonio] (https://github.com/mrbalonio)
+        this.client.on('connect', function () {
+                that.log('Subscribing to topics');
+		if( that.topicStatusGet !== undefined ) that.client.subscribe(that.topicStatusGet);
+                if( that.lwt !== undefined ) that.client.subscribe(that.lwt);
+        });
+
 	this.client.on('message', function (topic, message) {
-		if (topic == that.topicStatusGet) {
-			var status = message.toString();
-                        if (status == that.onValue || status == that.offValue ) {
-			    that.switchStatus = (status == that.onValue) ? true : false;
-		   	    that.service.getCharacteristic(Characteristic.On).setValue(that.switchStatus, undefined, 'fromSetValue');
+		var status = message.toString();
+                if( topic == that.lwt ) {
+                        if ( message == that.lwt_payload ) {
+                                that.log("Gone Offline");
+                                that.reachable = false;
+                        // Trick to force "Not Responding" state
+                                that.service.removeCharacteristic(that.StatusFault);
                         }
+                } else {
+                        if(!that.reachable) {
+                                that.reachable = true;
+                        // Trick to force the clear of the "Not Responding" state
+                                that.service.addOptionalCharacteristic(Characteristic.StatusFault);
+                                that.StatusFault = that.service.getCharacteristic(Characteristic.StatusFault);
+                        };
+			if (topic == that.topicStatusGet) {
+                        	if (status == that.onValue || status == that.offValue ) {
+			    		that.switchStatus = (status == that.onValue) ? true : false;
+		   	    		that.service.getCharacteristic(Characteristic.On).setValue(that.switchStatus, undefined, 'fromSetValue');
+                        	}
+			}
 		}
 	});
-    	
-	this.client.subscribe(this.topicStatusGet);
 }
 
 module.exports = function(homebridge) {
@@ -113,15 +144,24 @@ MqttSwitch_typeAccessory.prototype = {
     		if (this.statusCmd !== undefined) {
     			this.client.publish(this.topicStatusSet, this.statusCmd, this.publish_options);
     		}
+//	    	callback(null, this.switchStatus);
+                if( this.reachable) {
 	    	callback(null, this.switchStatus);
+//                        callback();
+                } else {
+                        this.log("Offline");
+                        callback(1);
+                }
 	},
 
 	setStatus: function(status, callback, context) {
-		if(context !== 'fromSetValue') {
-			this.switchStatus = status;
-	    		this.client.publish(this.topicStatusSet, status ? this.onValue : this.offValue, this.publish_options);
-		}
-		callback();
+		if( this.reachable) {
+			if(context !== 'fromSetValue') {
+				this.switchStatus = status;
+	    			this.client.publish(this.topicStatusSet, status ? this.onValue : this.offValue, this.publish_options);
+			}
+			callback();
+		} else callback(1);
 	},
 
 	getServices: function() {

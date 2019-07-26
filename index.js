@@ -108,12 +108,19 @@ function MqttSwitch_typeAccessory(log, config) {
 	this.client.on('message', function (topic, message) {
 		var status = message.toString();
                 if( topic == that.lwt ) {
-                        if ( message == that.lwt_payload ) {
+                        if ( status == that.lwt_payload ) {
                                 that.log("Gone Offline");
                                 that.reachable = false;
                         // Trick to force "Not Responding" state
                                 that.service.removeCharacteristic(that.StatusFault);
-                        }
+                        } else {
+                        	if(!that.reachable) {
+                                	that.reachable = true;
+                        	// Trick to force the clear of the "Not Responding" state
+                                	that.service.addOptionalCharacteristic(Characteristic.StatusFault);
+                                	that.StatusFault = that.service.getCharacteristic(Characteristic.StatusFault);
+                        	};
+			}
                 } else {
                         if(!that.reachable) {
                                 that.reachable = true;
@@ -144,10 +151,9 @@ MqttSwitch_typeAccessory.prototype = {
     		if (this.statusCmd !== undefined) {
     			this.client.publish(this.topicStatusSet, this.statusCmd, this.publish_options);
     		}
-//	    	callback(null, this.switchStatus);
                 if( this.reachable) {
-	    	callback(null, this.switchStatus);
-//                        callback();
+	    		callback(null, this.switchStatus);
+//                 i	callback();
                 } else {
                         this.log("Offline");
                         callback(1);

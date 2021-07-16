@@ -8,7 +8,7 @@ The plugin must be cloned locally (git clone https://github.com/iomax/homebridge
     npm install -g ./homebridge-mqttswitch_type
     
 # Release notes
-Version 1.0.0
+Version 1.0.2
 + Initial draft
 
 # Configuration
@@ -25,9 +25,10 @@ Remember to configure the plugin in config.json in your home directory inside th
    "lwt": "OPTIONAL: LAST WILL AND TESTAMENT TOPIC",
    "lwtPayload": "lwt Payload",
    "topics": {
-		"statusGet":    "MQTT TOPIC FOR THE GETTING THE STATUS OF SWITCH",
-		"statusSet":    "MQTT TOPIC FOR THE SETTING THE STATUS OF SWITCH",
-		"statusCmd":    "OPTIONALLY THE STATUS COMMAND"
+		"statusGet":    "MQTT TOPIC SWITCH STATUS",
+		"statusSet":    "MQTT TOPIC SWITCH SETTING",
+		"statusUpd":    [OPTIONAL] "MQTT TOPIC STATUS COMMAND (default <statusSet>)",
+		"statusCmd":    [OPTIONAL]  "STATUS COMMAND PAYLOAD"
    },
    "onValue": "OPTIONALLY THE VALUE THAT MEANS ON (DEFAULT true)",
    "offValue": "OPTIONALLY THE VALUE THAT MEANS ON (DEFAULT false)"

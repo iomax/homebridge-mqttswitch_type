@@ -1,5 +1,5 @@
 # homebridge-mqttswitch_type
-An homebridge plugin that create an HomeKit Switch, or Light,  accessory mapped on MQTT topics. 
+An homebridge plugin that create an HomeKit Switch, Light or Outlet accessory mapped on MQTT topics. 
 
 # Installation
 Follow the instruction in [homebridge](https://www.npmjs.com/package/homebridge) for the homebridge server installation.
@@ -21,7 +21,7 @@ Remember to configure the plugin in config.json in your home directory inside th
    "username": "USERNAME OF THE BROKER",
    "password": "PASSWORD OF THE BROKER",
    "caption": "SWITCH LABEL",
-   "type": "ACCESSORY TYPE ( light|switch )",
+   "type": "ACCESSORY TYPE ( light|switch|outlet )",
    "lwt": "OPTIONAL: LAST WILL AND TESTAMENT TOPIC",
    "lwtPayload": "lwt Payload",
    "topics": {
